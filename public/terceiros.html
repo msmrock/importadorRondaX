@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ronda Senior X - Gestão de Terceiros</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./image/favicon.ico"
+      alt="Favicon do site Ronda Senior X"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .btn-width {
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body class="bg-green-250 flex items-center justify-center min-h-screen p-4">
+    <a href="#mainContent" class="sr-only focus:not-sr-only"
+      >Pular para o conteúdo principal</a
+    >
+
+    <!-- Sobreposição de carregamento -->
+    <div
+      id="loadingOverlay"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      role="dialog"
+      aria-label="Tela de carregamento"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"
+          aria-hidden="true"
+        ></div>
+        <p class="text-lg font-semibold text-gray-700">Processando...</p>
+        <p class="text-sm text-gray-500 mt-2">Por favor, aguarde.</p>
+      </div>
+    </div>
+
+    <main
+      id="mainContent"
+      class="w-full max-w-3xl bg-gray-100 rounded-lg shadow-lg p-8 space-y-6"
+    >
+      <h1 class="text-3xl font-bold text-center text-gray-800">
+        Ronda Senior X - Gestão de Terceiros
+      </h1>
+
+      <div class="footer">
+        <span style="color: black"><i>${username}</i></span>
+      </div>
+
+      <!-- Menu Principal -->
+      <div id="mainMenu" class="flex flex-col items-center space-y-4">
+        <button
+          onclick="showCompanyUpload()"
+          class="btn-width flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
+        >
+          Importar Empresas
+        </button>
+        <button
+          onclick="showContractUpload()"
+          class="btn-width flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition"
+        >
+          Importar Contratos
+        </button>
+        <button
+          onclick="window.location.href='index.html'"
+          class="btn-width flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 transition mt-6"
+        >
+          Voltar
+        </button>
+      </div>
+
+      <!-- Formulário de Upload de Empresas -->
+      <div
+        id="companyUploadForm"
+        class="hidden w-full mx-auto p-8 bg-white rounded-xl shadow-2xl"
+      >
+        <h2 class="text-xl font-bold text-center text-gray-800">
+          Importação de Empresas Terceirizadas
+        </h2>
+        <p class="text-center text-lg text-gray-600">
+          Estrutura do Arquivo CSV para Importação de Empresas
+        </p>
+        <form class="space-y-6" onsubmit="handleCompanyUpload(event)">
+          <div>
+            <label
+              for="companyCsvFile"
+              class="block text-sm text-center font-medium text-gray-700 break-words"
+            >
+              <style>
+                table {
+                  border-collapse: collapse;
+                  width: 100%;
+                }
+                th,
+                td {
+                  border: 1px solid green;
+                  padding: 8px;
+                  text-align: left;
+                }
+                th {
+                  background-color: #f2f2f2;
+                }
+                .red {
+                  color: red;
+                }
+                .small-text {
+                  font-size: 11px;
+                }
+              </style>
+
+              <table>
+                <tr>
+                  <th>Campos</th>
+                </tr>
+                <tr>
+                  <td class="small-text">
+                    <span class="red">tradeName</span> |
+                    <span class="red">companyName</span> |
+                    <span class="red">document</span> |
+                    <span class="red">workflowProcessId</span> | phone | email |
+                    address | district | city | federalState | zipCode | country
+                    | number | complement
+                  </td>
+                </tr>
+              </table>
+            </label>
+            <input
+              id="companyCsvFile"
+              name="companyCsvFile"
+              type="file"
+              accept=".csv"
+              required
+              class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn-width mx-auto flex justify-center py-1 px-3 rounded-sm shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
+          >
+            Processar Arquivo
+          </button>
+        </form>
+        <button
+          onclick="backToMainMenu()"
+          class="btn-width mx-auto flex justify-center py-1 px-3 rounded-sm shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 transition mt-4"
+        >
+          Voltar
+        </button>
+        <br />
+        <div>
+          <p class="text-center text-base">
+            <strong class="font-mono">Detalhes dos campos</strong> -
+            <span class="text-black">
+              Obs: Dados em
+              <span class="font-mono text-red-500">vermelho</span> são
+              obrigatórios.
+            </span>
+          </p>
+
+          <style>
+            table {
+              border-collapse: collapse;
+              width: 100%;
+              font-size: 12px;
+            }
+            th,
+            td {
+              border: 1px solid green;
+              padding: 3px 6px;
+              text-align: left;
+              line-height: 1.2;
+            }
+            th {
+              background-color: #f2f2f2;
+              font-size: 13px;
+              padding: 4px 6px;
+            }
+            .red {
+              color: red;
+            }
+            .footer {
+              margin-top: 10px;
+              font-family: Georgia, serif;
+              font-size: 14px;
+              font-style: italic;
+              font-weight: bold;
+              text-align: center;
+            }
+          </style>
+
+          <table>
+            <tr>
+              <th><span class="red">Campo</span></th>
+              <th>Descrição</th>
+            </tr>
+            <tr>
+              <td><span class="red">tradeName</span></td>
+              <td>Nome Fantasia</td>
+            </tr>
+            <tr>
+              <td><span class="red">companyName</span></td>
+              <td>Razão Social</td>
+            </tr>
+            <tr>
+              <td><span class="red">document</span></td>
+              <td>CNPJ (somente números ou formatado)</td>
+            </tr>
+            <tr>
+              <td><span class="red">workflowProcessId</span></td>
+              <td>ID do processo de workflow</td>
+            </tr>
+            <tr>
+              <td>phone</td>
+              <td>Telefone</td>
+            </tr>
+            <tr>
+              <td>email</td>
+              <td>E-mail válido</td>
+            </tr>
+            <tr>
+              <td>address</td>
+              <td>Endereço</td>
+            </tr>
+            <tr>
+              <td>district</td>
+              <td>Bairro</td>
+            </tr>
+            <tr>
+              <td>city</td>
+              <td>Cidade</td>
+            </tr>
+            <tr>
+              <td>federalState</td>
+              <td>Estado (UF)</td>
+            </tr>
+            <tr>
+              <td>zipCode</td>
+              <td>CEP</td>
+            </tr>
+            <tr>
+              <td>country</td>
+              <td>País (default: Brasil)</td>
+            </tr>
+            <tr>
+              <td>number</td>
+              <td>Número do endereço</td>
+            </tr>
+            <tr>
+              <td>complement</td>
+              <td>Complemento do endereço</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Formulário de Upload de Contratos -->
+      <div
+        id="contractUploadForm"
+        class="hidden w-full mx-auto p-8 bg-white rounded-xl shadow-2xl"
+      >
+        <h2 class="text-xl font-bold text-center text-gray-800">
+          Importação de Contratos
+        </h2>
+        <p class="text-center text-lg text-gray-600">
+          Estrutura do Arquivo CSV para Importação de Contratos
+        </p>
+        <form class="space-y-6" onsubmit="handleContractUpload(event)">
+          <div>
+            <label
+              for="contractCsvFile"
+              class="block text-sm text-center font-medium text-gray-700 break-words"
+            >
+              <style>
+                table {
+                  border-collapse: collapse;
+                  width: 100%;
+                }
+                th,
+                td {
+                  border: 1px solid green;
+                  padding: 8px;
+                  text-align: left;
+                }
+                th {
+                  background-color: #f2f2f2;
+                }
+                .red {
+                  color: red;
+                }
+                .small-text {
+                  font-size: 11px;
+                }
+              </style>
+
+              <table>
+                <tr>
+                  <th>Campos</th>
+                </tr>
+                <tr>
+                  <td class="small-text">
+                    <span class="red">thirdPartyCompanyId</span> |
+                    <span class="red">contractTypeId</span> |
+                    <span class="red">contractNumber</span> |
+                    <span class="red">startDate</span> |
+                    <span class="red">workflowProcessId</span> |
+                    <span class="red">defaultRoleId</span> | description |
+                    endDate | situation | responsibleName | phone | email |
+                    login
+                  </td>
+                </tr>
+              </table>
+            </label>
+            <input
+              id="contractCsvFile"
+              name="contractCsvFile"
+              type="file"
+              accept=".csv"
+              required
+              class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn-width mx-auto flex justify-center py-1 px-3 rounded-sm shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition"
+          >
+            Processar Arquivo
+          </button>
+        </form>
+        <button
+          onclick="backToMainMenu()"
+          class="btn-width mx-auto flex justify-center py-1 px-3 rounded-sm shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 transition mt-4"
+        >
+          Voltar
+        </button>
+        <br />
+        <div>
+          <p class="text-center text-base">
+            <strong class="font-mono">Detalhes dos campos</strong> -
+            <span class="text-black">
+              Obs: Dados em
+              <span class="font-mono text-red-500">vermelho</span> são
+              obrigatórios.
+            </span>
+          </p>
+
+          <style>
+            table {
+              border-collapse: collapse;
+              width: 100%;
+              font-size: 12px;
+            }
+            th,
+            td {
+              border: 1px solid green;
+              padding: 3px 6px;
+              text-align: left;
+              line-height: 1.2;
+            }
+            th {
+              background-color: #f2f2f2;
+              font-size: 13px;
+              padding: 4px 6px;
+            }
+            .red {
+              color: red;
+            }
+            .footer {
+              margin-top: 10px;
+              font-family: Georgia, serif;
+              font-size: 14px;
+              font-style: italic;
+              font-weight: bold;
+              text-align: center;
+            }
+          </style>
+
+          <table>
+            <tr>
+              <th><span class="red">Campo</span></th>
+              <th>Descrição</th>
+            </tr>
+            <tr>
+              <td><span class="red">thirdPartyCompanyId</span></td>
+              <td>ID da empresa terceirizada</td>
+            </tr>
+            <tr>
+              <td><span class="red">contractTypeId</span></td>
+              <td>ID do tipo de contrato</td>
+            </tr>
+            <tr>
+              <td><span class="red">contractNumber</span></td>
+              <td>Número do contrato</td>
+            </tr>
+            <tr>
+              <td><span class="red">startDate</span></td>
+              <td>Data de início (DD/MM/AAAA)</td>
+            </tr>
+            <tr>
+              <td>endDate</td>
+              <td>Data de término (DD/MM/AAAA)</td>
+            </tr>
+            <tr>
+              <td>description</td>
+              <td>Descrição do contrato</td>
+            </tr>
+            <tr>
+              <td>situation</td>
+              <td>Situação (true ou false, default: true)</td>
+            </tr>
+            <tr>
+              <td>responsibleName</td>
+              <td>Nome do responsável</td>
+            </tr>
+            <tr>
+              <td>phone</td>
+              <td>Telefone</td>
+            </tr>
+            <tr>
+              <td>email</td>
+              <td>Email</td>
+            </tr>
+            <tr>
+              <td><span class="red">workflowProcessId</span></td>
+              <td>ID do processo de workflow</td>
+            </tr>
+            <tr>
+              <td>login</td>
+              <td>Login do responsável</td>
+            </tr>
+            <tr>
+              <td><span class="red">defaultRoleId</span></td>
+              <td>ID do papel padrão</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Seção de Resultados -->
+      <div id="results" class="hidden" aria-live="polite">
+        <h2 class="text-xl font-bold text-gray-800" id="resultsTitle">
+          Resultados do Processamento
+        </h2>
+        <div id="resultsContent" class="space-y-4"></div>
+        <button
+          onclick="downloadResults()"
+          class="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
+        >
+          Download do Relatório
+        </button>
+        <button
+          onclick="backToMainMenu()"
+          class="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 transition"
+        >
+          Voltar ao Menu
+        </button>
+      </div>
+    </main>
+
+    <script src="js/terceiros.js"></script>
+  </body>
+</html>

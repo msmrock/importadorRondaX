@@ -1,0 +1,4 @@
+thirdPartyCompanyId;contractTypeId;contractNumber;startDate;workflowProcessId;defaultRoleId;description;endDate;situation;responsibleName;email;login
+46;1;1;02/03/2025;2;1;TESTE 1;;;;;
+47;1;2;02/03/2025;2;1;TESTE 2;02/03/2026;;Mario;teste1@testppp.com;testeteste.fida
+46;1;2;02/03/2025;2;1;TESTE 2;;;;;
