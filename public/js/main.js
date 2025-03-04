@@ -27,20 +27,19 @@ function hideLoading() {
 //FUNÇÃO LOGIN
 async function handleLogin(event) {
   event.preventDefault();
-
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-
   try {
     showLoading();
-    const response = await fetch("http://localhost:3000/api/login", {
+    // Usando window.location.origin para obter a base URL dinâmica
+    const apiBase = window.location.origin;
+    const response = await fetch(`${apiBase}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
     });
-
     // Verifica se a resposta não está ok
     if (!response.ok) {
       // Tenta obter os detalhes do erro da resposta
@@ -53,17 +52,14 @@ async function handleLogin(event) {
         throw new Error("Login falhou");
       }
     }
-
     const data = await response.json();
     console.log("Login response:", data);
     const tokenData = JSON.parse(data.jsonToken);
     authToken = tokenData.access_token;
     console.log("Token obtained successfully");
-
     // Armazene o token no localStorage
     localStorage.setItem("authToken", authToken);
     console.log("Token armazenado no localStorage");
-
     document.getElementById("loginForm").classList.add("hidden");
     document.getElementById("uploadForm").classList.remove("hidden");
   } catch (error) {
@@ -110,7 +106,8 @@ async function handleUpload(event) {
       "Sending request with auth token:",
       authToken.substring(0, 10) + "..."
     );
-    const response = await fetch("http://localhost:3000/api/upload", {
+    const apiBase = window.location.origin;
+    const response = await fetch(`${apiBase}/api/upload`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -310,7 +307,8 @@ async function getLicenseInfo() {
       authToken.substring(0, 10) + "..."
     );
 
-    const response = await fetch("http://localhost:3000/api/license-info", {
+    const apiBase = window.location.origin;
+    const response = await fetch(`${apiBase}/api/license-info`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -473,7 +471,8 @@ async function submitResetLevel() {
       `Resetando níveis para o intervalo de IDs ${startId} a ${endId}...`
     );
 
-    const response = await fetch("http://localhost:3000/api/reset-level", {
+    const apiBase = window.location.origin;
+    const response = await fetch(`${apiBase}/api/reset-level`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${authToken}`,
