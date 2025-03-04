@@ -88,7 +88,8 @@ async function handleCompanyUpload(event) {
       authToken.substring(0, 10) + "..."
     );
 
-    const response = await fetch("http://localhost:3000/api/import-companies", {
+    const apiBase = window.location.origin;
+    const response = await fetch(`${apiBase}/api/import-companies`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -157,7 +158,8 @@ async function handleContractUpload(event) {
       authToken.substring(0, 10) + "..."
     );
 
-    const response = await fetch("http://localhost:3000/api/import-contracts", {
+    const apiBase = window.location.origin;
+    const response = await fetch(`${apiBase}/api/import-contracts`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${authToken}`,
