@@ -461,7 +461,7 @@ app.post("/api/import-companies", upload.single("file"), async (req, res) => {
         const companyPayload = {
           tradeName: tradeName,
           companyName: companyName,
-          document: parseInt(document),
+          document: document,
           phone: record.phone || "",
           email: record.email || "",
           address: record.address || "",
