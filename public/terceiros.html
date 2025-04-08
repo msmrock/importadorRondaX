@@ -82,7 +82,7 @@
           Importação de Empresas Terceirizadas
         </h2>
         <p class="text-center text-lg text-gray-600">
-          Arquivo CSV deve conter os campos abaixo
+          Arquivo CSV deve conter os campos abaixo - Codificação em UTF-8 (sem BOM)
         </p>
         <form class="space-y-6" onsubmit="handleCompanyUpload(event)">
           <div>
@@ -207,7 +207,7 @@
             </tr>
             <tr>
               <td><span class="red">document</span></td>
-              <td>Documento (CNPJ ou CPF - somente números)</td>
+              <td>Documento (CNPJ ou CPF)</td>
             </tr>
             <tr>
               <td><span class="red">workflowProcessId</span></td>
@@ -266,7 +266,7 @@
           Importação de Contratos
         </h2>
         <p class="text-center text-lg text-gray-600">
-          Arquivo CSV deve conter os campos abaixo
+          Arquivo CSV deve conter os campos abaixo - Codificação em UTF-8 (sem BOM)
         </p>
         <form class="space-y-6" onsubmit="handleContractUpload(event)">
           <div>
@@ -307,7 +307,8 @@
                     <span class="red">contractNumber</span> |
                     <span class="red">startDate</span> |
                     <span class="red">workflowProcessId</span> |
-                    <span class="red">defaultRoleId</span> | description |
+                    <span class="red">defaultRoleId</span> | 
+                    <span class="red">description</span> |
                     endDate | situation | responsibleName | phone | email |
                     login
                   </td>
@@ -404,7 +405,7 @@
               <td>Data de término (DD/MM/AAAA)</td>
             </tr>
             <tr>
-              <td>description</td>
+              <td><span class="red">description</span></td>
               <td>Descrição do contrato</td>
             </tr>
             <tr>
